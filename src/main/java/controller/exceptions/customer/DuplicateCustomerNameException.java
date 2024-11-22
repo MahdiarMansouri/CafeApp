@@ -1,4 +1,4 @@
-package controller.exceptions;
+package controller.exceptions.customer;
 
 public class DuplicateCustomerNameException extends Exception {
     public DuplicateCustomerNameException() {

@@ -1,4 +1,4 @@
-package controller.exceptions;
+package controller.exceptions.person;
 
 public class FailedRequiermentException extends Exception{
     public FailedRequiermentException() {

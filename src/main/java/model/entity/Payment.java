@@ -15,7 +15,7 @@ import model.entity.enums.PaymentStatus;
 @SuperBuilder
 public class Payment {
     private int paymentId;
-    private double amount;
+    private int amount;
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
     private Order order;

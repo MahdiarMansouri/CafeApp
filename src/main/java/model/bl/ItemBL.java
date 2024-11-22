@@ -1,7 +1,7 @@
 package model.bl;
 
-import controller.exceptions.DuplicateItemNameException;
-import controller.exceptions.NoItemFoundException;
+import controller.exceptions.item.DuplicateItemNameException;
+import controller.exceptions.item.NoItemFoundException;
 import lombok.Getter;
 import model.da.ItemDA;
 import model.entity.Item;

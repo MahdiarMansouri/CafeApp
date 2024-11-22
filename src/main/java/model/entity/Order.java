@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import model.entity.enums.OrderStatus;
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ import java.util.List;
 public class Order {
     private int orderId;
     private List<Item> products;
-    private double totalPrice;
-    private String status;
+    private int totalPrice;
+    private OrderStatus status;
     private Customer customer;
 
 
@@ -39,8 +40,8 @@ public class Order {
         }
     }
 
-    public void updateStatus(String status) {
-        this.status = status;
+    public void updateStatus(OrderStatus orderStatus) {
+        this.status = orderStatus;
     }
 
     @Override

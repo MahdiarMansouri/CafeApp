@@ -3,16 +3,12 @@ package model.bl;
 import lombok.Getter;
 
 import java.util.List;
-import lombok.Getter;
-import controller.exceptions.FailedRequiermentException;
-import controller.exceptions.NoPersonFoundException;
+
+import controller.exceptions.person.NoPersonFoundException;
 import model.da.PersonDA;
 import model.entity.Person;
 import model.entity.User;
 import model.tools.CRUD;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class PersonBL implements CRUD<Person> {
     @Getter

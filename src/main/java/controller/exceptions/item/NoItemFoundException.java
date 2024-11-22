@@ -1,4 +1,4 @@
-package controller.exceptions;
+package controller.exceptions.item;
 
 public class NoItemFoundException extends Exception  {
     public NoItemFoundException() {

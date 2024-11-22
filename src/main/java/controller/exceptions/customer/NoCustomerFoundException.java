@@ -1,4 +1,4 @@
-package controller.exceptions;
+package controller.exceptions.customer;
 
 public class NoCustomerFoundException extends Exception {
     public NoCustomerFoundException() {

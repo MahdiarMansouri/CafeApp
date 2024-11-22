@@ -2,10 +2,8 @@ package model.da;
 
 import model.entity.Item;
 import model.entity.enums.Category;
-
 import model.tools.CRUD;
 import model.tools.ConnectionProvider;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

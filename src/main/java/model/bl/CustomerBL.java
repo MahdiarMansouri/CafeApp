@@ -1,7 +1,7 @@
 package model.bl;
 
-import controller.exceptions.DuplicateCustomerNameException;
-import controller.exceptions.NoCustomerFoundException;
+import controller.exceptions.customer.DuplicateCustomerNameException;
+import controller.exceptions.customer.NoCustomerFoundException;
 import lombok.Getter;
 import model.da.CustomerDA;
 import model.entity.Customer;

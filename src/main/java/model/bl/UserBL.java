@@ -1,7 +1,7 @@
 package model.bl;
 
-import controller.exceptions.DuplicateUsernameException;
-import controller.exceptions.NoUserFoundException;
+import controller.exceptions.user.DuplicateUsernameException;
+import controller.exceptions.user.NoUserFoundException;
 import lombok.Getter;
 import model.da.UserDA;
 import model.entity.User;
