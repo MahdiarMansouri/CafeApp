@@ -15,7 +15,7 @@ public class OrderBL implements CRUD<Order> {
     @Getter
     private static final OrderBL orderBl = new OrderBL();
 
-    private OrderBL() {
+    public OrderBL() {
     }
 
     @Override

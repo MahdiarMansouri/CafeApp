@@ -75,7 +75,7 @@ public class ItemDA implements AutoCloseable, CRUD<Item> {
                     .itemId(resultSet.getInt("ITEM_ID"))
                     .name(resultSet.getString("ITEM_NAME"))
                     .description(resultSet.getString("DESCRIPTION"))
-                    .price(resultSet.getFloat("PRICE"))
+                    .price(resultSet.getInt("PRICE"))
                     .category(Category.valueOf(resultSet.getString("CATEGORY")))
                     .isAvailable(resultSet.getBoolean("IS_AVAILABLE"))
                     .build();
@@ -98,7 +98,7 @@ public class ItemDA implements AutoCloseable, CRUD<Item> {
                     .itemId(resultSet.getInt("ITEM_ID"))
                     .name(resultSet.getString("ITEM_NAME"))
                     .description(resultSet.getString("DESCRIPTION"))
-                    .price(resultSet.getFloat("PRICE"))
+                    .price(resultSet.getInt("PRICE"))
                     .category(Category.valueOf(resultSet.getString("CATEGORY")))
                     .isAvailable(resultSet.getBoolean("IS_AVAILABLE"))
                     .build();
@@ -118,7 +118,7 @@ public class ItemDA implements AutoCloseable, CRUD<Item> {
                     .itemId(resultSet.getInt("ITEM_ID"))
                     .name(resultSet.getString("ITEM_NAME"))
                     .description(resultSet.getString("DESCRIPTION"))
-                    .price(resultSet.getFloat("PRICE"))
+                    .price(resultSet.getInt("PRICE"))
                     .category(Category.valueOf(resultSet.getString("CATEGORY")))
                     .isAvailable(resultSet.getBoolean("IS_AVAILABLE"))
                     .build();

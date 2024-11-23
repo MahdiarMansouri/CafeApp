@@ -19,7 +19,7 @@ public class Item {
     private int itemId;
     private String name;
     private String description;
-    private Float price;
+    private int price;
     private Category category;
     private boolean isAvailable;
 

@@ -14,22 +14,22 @@ public class PersonBL implements CRUD<Person> {
     @Getter
     private static final PersonBL personBl = new PersonBL();
 
-    private PersonBL() {
+    public PersonBL() {
     }
 
     @Override
     public Person save(Person person) throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
-            PersonDA.save(person);
+        try (PersonDA personDA = new PersonDA()) {
+            personDA.save(person);
             return person;
         }
     }
 
     @Override
     public Person edit(Person person) throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
-            if (PersonDA.findById(person.getId()) != null) {
-                PersonDA.edit(person);
+        try (PersonDA personDA = new PersonDA()) {
+            if (personDA.findById(person.getId()) != null) {
+                personDA.edit(person);
                 return person;
             } else {
                 throw new NoPersonFoundException();
@@ -39,10 +39,10 @@ public class PersonBL implements CRUD<Person> {
 
     @Override
     public Person remove(int id) throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
-            Person person = PersonDA.findById(id);
+        try (PersonDA personDA = new PersonDA()) {
+            Person person = personDA.findById(id);
             if (person != null) {
-                PersonDA.remove(id);
+                personDA.remove(id);
                 return person;
             } else {
                 throw new NoPersonFoundException();
@@ -52,8 +52,8 @@ public class PersonBL implements CRUD<Person> {
 
     @Override
     public List<Person> findAll() throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
-            List<Person> personList = PersonDA.findAll();
+        try (PersonDA personDA = new PersonDA()) {
+            List<Person> personList = personDA.findAll();
             if (!personList.isEmpty()) {
 //                personList
 //                        .stream()
@@ -72,8 +72,8 @@ public class PersonBL implements CRUD<Person> {
 
     @Override
     public Person findById(int id) throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
-            Person person = PersonDA.findById(id);
+        try (PersonDA personDA = new PersonDA()) {
+            Person person = personDA.findById(id);
             if (person != null) {
                 int userId = person.getUser().getUser_id();
                 User user = UserBL.getUserBl().findById(userId);
@@ -86,8 +86,8 @@ public class PersonBL implements CRUD<Person> {
     }
 
     public List<Person> findByFamily(String family) throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
-            List<Person> personList = PersonDA.findByFamily(family);
+        try (PersonDA personDA = new PersonDA()) {
+            List<Person> personList = personDA.findByFamily(family);
             if (!personList.isEmpty()) {
                 for (Person person : personList) {
                     person.setUser(UserBL.getUserBl().findById(person.getUser().getUser_id()));
@@ -99,10 +99,10 @@ public class PersonBL implements CRUD<Person> {
         }
     }
 
-    public Person findByUsername(String username)throws Exception {
-        try (PersonDA PersonDA = new PersonDA()) {
+    public Person findByUsername(String username) throws Exception {
+        try (PersonDA personDA = new PersonDA()) {
             User user = UserBL.getUserBl().findByUsername(username);
-            Person person = PersonDA.findByUserId(user.getUser_id());
+            Person person = personDA.findByUserId(user.getUser_id());
             person.setUser(UserBL.getUserBl().findById(person.getUser().getUser_id()));
             return person;
         }

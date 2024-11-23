@@ -100,7 +100,7 @@ public class CustomerDA implements AutoCloseable, CRUD<Customer> {
     }
 
     public Customer findByCustomerName(String customerName) throws Exception {
-        preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMER_TBL WHERE CUSTOMER_NAME LIKE %?% ");
+        preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMER_TBL WHERE CUSTOMER_NAME = ? ");
         preparedStatement.setString(1, customerName);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -119,7 +119,7 @@ public class CustomerDA implements AutoCloseable, CRUD<Customer> {
 
 
     public Customer findByCustomerFamily(String lastName) throws SQLException {
-        preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMER_TBL WHERE CUSTOMER_FAMILY LIKE %?%");
+        preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMER_TBL WHERE CUSTOMER_FAMILY = ?");
         preparedStatement.setString(1, lastName);
         ResultSet resultSet = preparedStatement.executeQuery();
 

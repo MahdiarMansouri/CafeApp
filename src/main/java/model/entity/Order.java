@@ -20,7 +20,7 @@ import java.util.List;
 public class Order {
     private int orderId;
     private List<Item> products;
-    private int totalPrice;
+    private Integer totalPrice;
     private OrderStatus status;
     private Customer customer;
 

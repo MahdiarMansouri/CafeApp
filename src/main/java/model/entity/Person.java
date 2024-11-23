@@ -12,7 +12,7 @@ import model.entity.enums.Gender;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 
 
 public class Person {
@@ -23,6 +23,7 @@ public class Person {
     private String nationalId;
     private String phoneNumber;
     private User user;
+
 
     @Override
     public String toString() {

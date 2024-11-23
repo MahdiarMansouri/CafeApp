@@ -12,14 +12,15 @@ import model.entity.enums.Role;
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 
 
 public class User {
     private int user_id;
-    private String user_name;
+    private String username;
     private String password;
     private Role role;
+
 
     public void takeOrder(Order order) {
     }

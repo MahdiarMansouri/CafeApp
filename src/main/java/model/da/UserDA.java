@@ -27,13 +27,13 @@ public class UserDA implements AutoCloseable, CRUD<User> {
 
     @Override
     public User save(User user) throws Exception {
-        user.setUser_id(ConnectionProvider.getConnectionProvider().getNextId("PERSON_SEQ"));
+        user.setUser_id(ConnectionProvider.getConnectionProvider().getNextId("USER_SEQ"));
 
         preparedStatement = connection.prepareStatement(
                 "INSERT INTO USER_TBL (ID, USERNAME, PASSWORD, ROLE) VALUES (?,?,?,?)"
         );
         preparedStatement.setInt(1, user.getUser_id());
-        preparedStatement.setString(2, user.getUser_name());
+        preparedStatement.setString(2, user.getUsername());
         preparedStatement.setString(3, user.getPassword());
         preparedStatement.setString(4, String.valueOf(user.getRole()));
         preparedStatement.execute();
@@ -45,7 +45,7 @@ public class UserDA implements AutoCloseable, CRUD<User> {
         preparedStatement = connection.prepareStatement(
                 "UPDATE USER_TBL SET USERNAME=?, PASSWORD=?, ENABLED=? WHERE ID=?"
         );
-        preparedStatement.setString(1, user.getUser_name());
+        preparedStatement.setString(1, user.getUsername());
         preparedStatement.setString(2, user.getPassword());
         preparedStatement.setString(3, String.valueOf(user.getRole()));
         preparedStatement.setInt(4, user.getUser_id());
@@ -74,7 +74,7 @@ public class UserDA implements AutoCloseable, CRUD<User> {
             User user = User
                     .builder()
                     .user_id(resultSet.getInt("ID"))
-                    .user_name(resultSet.getString("USERNAME"))
+                    .username(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
                     .role(Role.valueOf(resultSet.getString("ROLE")))
                     .build();
@@ -95,7 +95,7 @@ public class UserDA implements AutoCloseable, CRUD<User> {
             user = User
                     .builder()
                     .user_id(resultSet.getInt("ID"))
-                    .user_name(resultSet.getString("USERNAME"))
+                    .username(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
                     .role(Role.valueOf(resultSet.getString("ROLE")))
                     .build();
@@ -113,7 +113,7 @@ public class UserDA implements AutoCloseable, CRUD<User> {
             user = User
                     .builder()
                     .user_id(resultSet.getInt("ID"))
-                    .user_name(resultSet.getString("USERNAME"))
+                    .username(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
                     .role(Role.valueOf(resultSet.getString("ROLE")))
                     .build();
@@ -132,7 +132,7 @@ public class UserDA implements AutoCloseable, CRUD<User> {
             user = User
                     .builder()
                     .user_id(resultSet.getInt("ID"))
-                    .user_name(resultSet.getString("USERNAME"))
+                    .username(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
                     .role(Role.valueOf(resultSet.getString("ROLE")))
                     .build();

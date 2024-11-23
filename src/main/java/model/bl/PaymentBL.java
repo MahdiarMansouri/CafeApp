@@ -14,7 +14,7 @@ public class PaymentBL implements CRUD<Payment> {
     @Getter
     private static final PaymentBL paymentBl = new PaymentBL();
 
-    private PaymentBL() {
+    public PaymentBL() {
     }
 
     @Override

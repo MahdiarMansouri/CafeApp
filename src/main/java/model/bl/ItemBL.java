@@ -13,14 +13,14 @@ public class ItemBL implements CRUD<Item> {
     @Getter
     private static final ItemBL itemBl = new ItemBL();
 
-    private ItemBL() {
+    public ItemBL() {
     }
 
     @Override
     public Item save(Item item) throws Exception {
-        try (ItemDA ItemDA = new ItemDA()) {
-            if (ItemDA.findByItemName(item.getName()) == null) {
-                ItemDA.save(item);
+        try (ItemDA itemDA = new ItemDA()) {
+            if (itemDA.findByItemName(item.getName()) == null) {
+                itemDA.save(item);
                 return item;
             }
             throw new DuplicateItemNameException();
@@ -29,9 +29,9 @@ public class ItemBL implements CRUD<Item> {
 
     @Override
     public Item edit(Item item) throws Exception {
-        try (ItemDA ItemDA = new ItemDA()) {
-            if (ItemDA.findById(item.getItemId()) != null) {
-                ItemDA.edit(item);
+        try (ItemDA itemDA = new ItemDA()) {
+            if (itemDA.findById(item.getItemId()) != null) {
+                itemDA.edit(item);
                 return item;
             } else {
                 throw new NoItemFoundException();
@@ -41,10 +41,10 @@ public class ItemBL implements CRUD<Item> {
 
     @Override
     public Item remove(int id) throws Exception {
-        try (ItemDA ItemDA = new ItemDA()) {
-            Item item = ItemDA.findById(id);
+        try (ItemDA itemDA = new ItemDA()) {
+            Item item = itemDA.findById(id);
             if (item != null) {
-                ItemDA.remove(id);
+                itemDA.remove(id);
                 return item;
             } else {
                 throw new NoItemFoundException();
@@ -54,8 +54,8 @@ public class ItemBL implements CRUD<Item> {
 
     @Override
     public List<Item> findAll() throws Exception {
-        try (ItemDA ItemDA = new ItemDA()) {
-            List<Item> itemList = ItemDA.findAll();
+        try (ItemDA itemDA = new ItemDA()) {
+            List<Item> itemList = itemDA.findAll();
             if (!itemList.isEmpty()) {
                 return itemList;
             } else {
@@ -66,8 +66,8 @@ public class ItemBL implements CRUD<Item> {
 
     @Override
     public Item findById(int id) throws Exception {
-        try (ItemDA ItemDA = new ItemDA()) {
-            Item item = ItemDA.findById(id);
+        try (ItemDA itemDA = new ItemDA()) {
+            Item item = itemDA.findById(id);
             if (item != null) {
                 return item;
             } else {
@@ -77,8 +77,8 @@ public class ItemBL implements CRUD<Item> {
     }
 
     public Item findByItemName(String itemName) throws Exception {
-        try (ItemDA ItemDA = new ItemDA()) {
-            Item item = ItemDA.findByItemName(itemName);
+        try (ItemDA itemDA = new ItemDA()) {
+            Item item = itemDA.findByItemName(itemName);
             if (item != null) {
                 return item;
             } else {

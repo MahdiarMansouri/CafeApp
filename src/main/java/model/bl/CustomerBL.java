@@ -13,14 +13,14 @@ public class CustomerBL implements CRUD<Customer> {
     @Getter
     private static final CustomerBL customerBl = new CustomerBL();
 
-    private CustomerBL() {
+    public CustomerBL() {
     }
 
     @Override
     public Customer save(Customer customer) throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            if (CustomerDA.findByCustomerName(customer.getFirstName()) == null || CustomerDA.findByCustomerFamily(customer.getLastName()) == null) {
-                CustomerDA.save(customer);
+        try (CustomerDA customerDA = new CustomerDA()) {
+            if (customerDA.findByCustomerName(customer.getFirstName()) == null || customerDA.findByCustomerFamily(customer.getLastName()) == null) {
+                customerDA.save(customer);
                 return customer;
             }
             throw new DuplicateCustomerNameException();
@@ -29,9 +29,9 @@ public class CustomerBL implements CRUD<Customer> {
 
     @Override
     public Customer edit(Customer customer) throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            if (CustomerDA.findById(customer.getCustomerId()) != null) {
-                CustomerDA.edit(customer);
+        try (CustomerDA customerDA = new CustomerDA()) {
+            if (customerDA.findById(customer.getCustomerId()) != null) {
+                customerDA.edit(customer);
                 return customer;
             } else {
                 throw new NoCustomerFoundException();
@@ -41,10 +41,10 @@ public class CustomerBL implements CRUD<Customer> {
 
     @Override
     public Customer remove(int id) throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            Customer customer = CustomerDA.findById(id);
+        try (CustomerDA customerDA = new CustomerDA()) {
+            Customer customer = customerDA.findById(id);
             if (customer != null) {
-                CustomerDA.remove(id);
+                customerDA.remove(id);
                 return customer;
             } else {
                 throw new NoCustomerFoundException();
@@ -54,8 +54,8 @@ public class CustomerBL implements CRUD<Customer> {
 
     @Override
     public List<Customer> findAll() throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            List<Customer> perosnList = CustomerDA.findAll();
+        try (CustomerDA customerDA = new CustomerDA()) {
+            List<Customer> perosnList = customerDA.findAll();
             if (!perosnList.isEmpty()) {
                 return perosnList;
             } else {
@@ -66,8 +66,8 @@ public class CustomerBL implements CRUD<Customer> {
 
     @Override
     public Customer findById(int id) throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            Customer customer = CustomerDA.findById(id);
+        try (CustomerDA customerDA = new CustomerDA()) {
+            Customer customer = customerDA.findById(id);
             if (customer != null) {
                 return customer;
             } else {
@@ -77,8 +77,8 @@ public class CustomerBL implements CRUD<Customer> {
     }
 
     public Customer findByCustomerName(String customerName) throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            Customer customer = CustomerDA.findByCustomerName(customerName);
+        try (CustomerDA customerDA = new CustomerDA()) {
+            Customer customer = customerDA.findByCustomerName(customerName);
             if (customer != null) {
                 return customer;
             } else {
@@ -88,8 +88,8 @@ public class CustomerBL implements CRUD<Customer> {
     }
 
     public Customer findByCustomerFamily(String customerFamily) throws Exception {
-        try (CustomerDA CustomerDA = new CustomerDA()) {
-            Customer customer = CustomerDA.findByCustomerFamily(customerFamily);
+        try (CustomerDA customerDA = new CustomerDA()) {
+            Customer customer = customerDA.findByCustomerFamily(customerFamily);
             if (customer != null) {
                 return customer;
             } else {
