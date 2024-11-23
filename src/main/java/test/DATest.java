@@ -3,6 +3,7 @@ package test;
 import model.bl.*;
 import model.entity.*;
 import model.entity.enums.*;
+import model.tools.ConnectionProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +87,14 @@ public class DATest {
 
         System.out.println(payment);
         System.out.println("------------------------------------------");
+
+//        System.out.println("Fetching next sequence value...");
+//        int paymentId = ConnectionProvider.getConnectionProvider().getNextId("PAYMENT_SEQ");
+//        System.out.println("Fetched Payment ID: " + paymentId);
+//        PaymentBL paymentBL = new PaymentBL();
+//        paymentBL.save(payment);
+//        System.out.println("Payments Saved");
+
 
         UserBL userBL = new UserBL();
         userBL.save(user);

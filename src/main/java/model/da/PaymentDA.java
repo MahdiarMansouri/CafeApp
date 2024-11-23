@@ -26,26 +26,17 @@ public class PaymentDA implements AutoCloseable, CRUD<Payment> {
 
     @Override
     public Payment save(Payment payment) throws Exception {
-        System.out.println("1");
         payment.setPaymentId(ConnectionProvider.getConnectionProvider().getNextId("PAYMENT_SEQ"));
-        System.out.println("1");
 
         preparedStatement = connection.prepareStatement(
                 "INSERT INTO PAYMENT_TBL (PAYMENT_ID, PAYMENT_METHOD, PAYMENT_STATUS, AMOUNT, ORDER_ID) VALUES (?,?,?,?,?)"
         );
-        System.out.println("1");
         preparedStatement.setInt(1, payment.getPaymentId());
-        System.out.println("1");
         preparedStatement.setString(2, String.valueOf(payment.getPaymentMethod()));
-        System.out.println("1");
         preparedStatement.setString(3, String.valueOf(payment.getPaymentStatus()));
-        System.out.println("1");
-        preparedStatement.setInt(4, payment.getAmount());
-        System.out.println("1");
+        preparedStatement.setInt(4, payment.getPaymentId());
         preparedStatement.setInt(5, payment.getOrder().getOrderId());
-        System.out.println("1");
         preparedStatement.execute();
-        System.out.println("2");
         return payment;
     }
 

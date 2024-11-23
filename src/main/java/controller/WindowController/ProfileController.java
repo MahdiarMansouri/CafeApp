@@ -1,4 +1,4 @@
-//package controller;
+//package controller.WindowController;
 //
 //import javafx.application.Platform;
 //import javafx.collections.FXCollections;
@@ -8,13 +8,6 @@
 //import javafx.scene.control.*;
 //import javafx.scene.control.cell.PropertyValueFactory;
 //import lombok.extern.log4j.Log4j;
-//import mft.model.bl.PersonBl;
-//import mft.model.entity.Person;
-//import mft.model.entity.enums.City;
-//import mft.model.entity.enums.Gender;
-//import mft.model.tools.Validator;
-//import mft.view.WindowsManager;
-//
 //import java.net.URL;
 //import java.util.List;
 //import java.util.ResourceBundle;
