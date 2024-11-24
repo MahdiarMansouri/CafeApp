@@ -1,8 +1,6 @@
 package view;
 
-import controller.WindowController.LoginController;
-import controller.WindowController.MainController;
-import controller.WindowController.MenuController;
+import controller.WindowController.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -33,9 +31,37 @@ public class WindowsManager {
         loginController.setStage(stage);
 
         stage.setScene(scene);
-        stage.setTitle("Login");
+        stage.setTitle("Login Window");
         stage.show();
     }
+    public static void showAddItemWindow() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("addItem.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        AddItemController addItemController = loader.getController();
+
+        addItemController.setStage(stage);
+
+        stage.setScene(scene);
+        stage.setTitle("Add Item Window");
+        stage.show();
+    }
+
+    public static void showAddUserWindow() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("addUser.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        AddUserController addUserController = loader.getController();
+
+        addUserController.setStage(stage);
+
+        stage.setScene(scene);
+        stage.setTitle("Add Item Window");
+        stage.show();
+    }
+
 
     public static void showAboutForm() throws IOException {
         Stage stage = new Stage();
@@ -69,7 +95,7 @@ public class WindowsManager {
         menuController.setStage(stage);
 
         stage.setScene(scene);
-        stage.setTitle("Menu");
+        stage.setTitle("Menu Window");
         stage.show();
     }
 }

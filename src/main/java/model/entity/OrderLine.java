@@ -6,24 +6,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import model.entity.enums.Gender;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-
-
-public class Person {
+public class OrderLine {
     private int id;
-    private String name;
-    private String family;
-    private Gender gender;
-    private String nationalId;
-    private String phoneNumber;
-    private User user;
+    private int count;
+    private Item item;
+    private Integer totalPrice;
 
+    public void setCount(int count) {
+        this.count = count;
+        this.totalPrice = calculateTotalPrice();
+    }
+
+
+    private Integer calculateTotalPrice() {
+        return this.count * item.getPrice();
+    }
 
     @Override
     public String toString() {

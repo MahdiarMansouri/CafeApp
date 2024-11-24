@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import model.bl.ItemBL;
 import model.entity.Item;
+import model.entity.OrderLine;
 import model.entity.enums.Category;
 
 
@@ -42,7 +43,7 @@ public class MenuController implements Initializable {
     private TableView<Item> menuTbl;
 
     @FXML
-    private TableView orderTbl;
+    private TableView<OrderLine> orderTbl;
 
     @FXML
     private TableColumn<Item, Integer> idMenuTbl, idOrderTbl, priceMenuTbl, priceOrderTbl, countOrderTbl, totalOrderTbl;
@@ -50,11 +51,13 @@ public class MenuController implements Initializable {
     @FXML
     private TableColumn<Item, String> itemNameMenuTbl, descriptionMenuTbl, itemNameOrderTbl;
 
-//    private ObservableArray<Item> orderList;
+    //    private ObservableArray<Item> orderList;
+    private ObservableList<ObservableList<String>> addToOrder;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        orderTbl.setEditable(true);
         String category = "Coffee";
         try {
             showMenuOnTable(category);
@@ -122,19 +125,43 @@ public class MenuController implements Initializable {
             }
         });
 
+        addToOrder = FXCollections.observableArrayList();
         menuTbl.setOnMouseClicked(event -> {
             Item item = menuTbl.getSelectionModel().getSelectedItem();
-            IntegerProperty id = null;
-            StringProperty name = null;
-            idOrderTbl.setCellValueFactory();
-            idOrderTbl.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-            itemNameOrderTbl.setCellValueFactory(new PropertyValueFactory<>("name"));
-//            itemNameOrderTbl.setCellValueFactory(new PropertyValueFactory<>());
+            OrderLine orderLine = OrderLine
+                    .builder()
+                    .id(item.getItemId())
+                    .item(item)
+                    .build();
+
+            orderLine.setCount(1);
+
+//            orderLine.setTotalPrice(orderLine.getCount() * orderLine.getItem().getPrice());
+
+            System.out.println(orderLine);
+
+//            if (  ) {
+//
+//            } else {
+//
+//                idOrderTbl.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+//                itemNameOrderTbl.setCellValueFactory(new PropertyValueFactory<>("name"));
+//                priceOrderTbl.setCellValueFactory(new PropertyValueFactory<>("price"));
+//
+//
+//            }
 
         });
 
 
     }
+
+
+
+    private void updateCount(OrderLine orderLine) {
+        orderLine.setCount(orderLine.getCount() + 1);
+    }
+
     private void clearTable() {
         menuTbl.getItems().clear();
     }

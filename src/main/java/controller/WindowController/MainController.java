@@ -2,6 +2,7 @@ package controller.WindowController;
 
 import javafx.fxml.Initializable;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,12 +53,24 @@ public class MainController implements Initializable {
         });
 
         addItemBtn.setOnAction(event -> {
+            try {
+                WindowsManager.showAddItemWindow();
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
         viewHistoryBtn.setOnAction(event -> {
         });
         inventoryBtn.setOnAction(event -> {
         });
         addUserBtn.setOnAction(event -> {
+            try {
+                WindowsManager.showAddUserWindow();
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
 
     }
