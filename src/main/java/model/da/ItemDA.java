@@ -126,6 +126,30 @@ public class ItemDA implements AutoCloseable, CRUD<Item> {
         return item;
     }
 
+    public List<Item> findByCategory(String category) throws Exception {
+        List<Item> itemList = new ArrayList<>();
+
+        preparedStatement = connection.prepareStatement("SELECT * FROM ITEM_TBL WHERE CATEGORY = ? ORDER BY ITEM_ID");
+        preparedStatement.setString(1, category);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Item item = Item
+                    .builder()
+                    .itemId(resultSet.getInt("ITEM_ID"))
+                    .name(resultSet.getString("ITEM_NAME"))
+                    .description(resultSet.getString("DESCRIPTION"))
+                    .price(resultSet.getInt("PRICE"))
+                    .category(Category.valueOf(resultSet.getString("CATEGORY")))
+                    .isAvailable(resultSet.getBoolean("IS_AVAILABLE"))
+                    .build();
+
+            itemList.add(item);
+        }
+
+        return itemList;
+    }
+
     @Override
     public void close() throws Exception {
         preparedStatement.close();

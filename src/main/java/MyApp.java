@@ -15,12 +15,13 @@ public class MyApp extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Login");
+        primaryStage.show();
+
         primaryStage.setOnCloseRequest((event) -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are You Sure ?");
             if (alert.showAndWait().get().equals(ButtonType.OK)) {
                 Platform.exit();
             }
         });
-        primaryStage.show();
     }
 }

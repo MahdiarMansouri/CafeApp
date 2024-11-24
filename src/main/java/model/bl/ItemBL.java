@@ -2,12 +2,16 @@ package model.bl;
 
 import controller.exceptions.item.DuplicateItemNameException;
 import controller.exceptions.item.NoItemFoundException;
+import controller.exceptions.item.NotValidEnumException;
 import lombok.Getter;
 import model.da.ItemDA;
 import model.entity.Item;
+import model.entity.enums.Category;
 import model.tools.CRUD;
 
 import java.util.List;
+
+import static model.tools.Validator.isValidEnum;
 
 public class ItemBL implements CRUD<Item> {
     @Getter
@@ -83,6 +87,21 @@ public class ItemBL implements CRUD<Item> {
                 return item;
             } else {
                 throw new NoItemFoundException();
+            }
+        }
+    }
+
+    public List<Item> findByCategory(String category) throws Exception {
+        try (ItemDA itemDA = new ItemDA()) {
+            if (isValidEnum(Category.class, category)) {
+                List<Item> itemList = itemDA.findByCategory(category);
+                if (!itemList.isEmpty()) {
+                    return itemList;
+                } else {
+                    throw new NoItemFoundException();
+                }
+            }else {
+                throw new NotValidEnumException();
             }
         }
     }

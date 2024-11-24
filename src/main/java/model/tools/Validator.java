@@ -10,4 +10,13 @@ public class Validator {
             throw new Exception(message);
         }
     }
+
+    public static <E extends Enum<E>> boolean isValidEnum(Class<E> enumClass, String value) throws Exception {
+        try {
+            Enum.valueOf(enumClass, value);
+            return true;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 }

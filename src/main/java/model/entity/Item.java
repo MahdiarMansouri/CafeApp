@@ -2,6 +2,7 @@ package model.entity;
 
 
 import com.google.gson.Gson;
+import javafx.collections.ObservableArray;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import model.entity.enums.Category;
 @SuperBuilder
 
 
-public class Item {
+public class Item  {
     private int itemId;
     private String name;
     private String description;

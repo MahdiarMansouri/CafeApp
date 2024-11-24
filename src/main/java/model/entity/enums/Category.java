@@ -5,6 +5,6 @@ public enum Category {
     HotDrink,
     Coffee,
     Cake,
-    MilkShake,
-    CafeGelase
+    Milkshake,
+    IceCream,
 }
