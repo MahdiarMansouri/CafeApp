@@ -1,9 +1,6 @@
 package controller.WindowController;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,19 +13,20 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import model.bl.CustomerBL;
 import model.bl.ItemBL;
+import model.bl.OrderBL;
 import model.entity.Customer;
 import model.entity.Item;
-import model.entity.OrderLine;
-import model.entity.enums.Category;
+import model.entity.Order;
+import model.entity.OrderItem;
+import model.entity.enums.OrderStatus;
 
 
-import javax.swing.text.TabableView;
-import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
+
     @Setter
     private Stage stage;
 
@@ -39,152 +37,92 @@ public class MenuController implements Initializable {
     private TextField customerNameTxt, customerFamilyTxt, phoneNumberTxt;
 
     @FXML
-    private Button coldDrinksBtn, hotDrinksBtn, coffeeBtn, cakeBtn, milkshakeBtn, iceCreamBtn, takeOrderBtn;
+    private Button coldDrinksBtn, hotDrinksBtn, coffeeBtn, cakeBtn, milkshakeBtn, iceCreamBtn, takeOrderBtn, resetBtn;
 
     @FXML
     private TableView<Item> menuTbl;
 
     @FXML
-    private TableView<OrderLine> orderTbl;
+    private TableView<OrderItem> orderTbl;
 
     @FXML
-    private TableColumn<Item, Integer> idMenuTbl, idOrderTbl, priceMenuTbl, priceOrderTbl, countOrderTbl, totalOrderTbl;
+    private TableColumn<OrderItem, Integer> idOrderTbl, countOrderTbl, priceOrderTbl, totalOrderTbl, idMenuTbl, itemNameMenuTbl, descriptionMenuTbl, priceMenuTbl;
 
     @FXML
-    private TableColumn<Item, String> itemNameMenuTbl, descriptionMenuTbl, itemNameOrderTbl;
+    private TableColumn<OrderItem, String> itemNameOrderTbl;
 
-    //    private ObservableArray<Item> orderList;
-    private ObservableList<ObservableList<String>> addToOrder;
-
+    private ObservableList<OrderItem> orderItems;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderTbl.setEditable(true);
-        String category = "Coffee";
+        idOrderTbl.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        itemNameOrderTbl.setCellValueFactory(new PropertyValueFactory<>("name"));
+        countOrderTbl.setCellValueFactory(new PropertyValueFactory<>("count"));
+        priceOrderTbl.setCellValueFactory(new PropertyValueFactory<>("price"));
+        totalOrderTbl.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+
+        orderItems = FXCollections.observableArrayList();
+        orderTbl.setItems(orderItems);
+
         try {
-            showMenuOnTable(category);
+            showMenuOnTable("Coffee");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        coldDrinksBtn.setOnAction(event -> {
-            try {
-                clearTable();
-                showMenuOnTable("ColdDrink");
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alert.show();
-            }
-        });
+        // Set event listeners for category buttons
+        setupCategoryButton(coldDrinksBtn, "ColdDrink");
+        setupCategoryButton(hotDrinksBtn, "HotDrink");
+        setupCategoryButton(cakeBtn, "Cake");
+        setupCategoryButton(coffeeBtn, "Coffee");
+        setupCategoryButton(milkshakeBtn, "Milkshake");
+        setupCategoryButton(iceCreamBtn, "IceCream");
 
-        hotDrinksBtn.setOnAction(event -> {
-            try {
-                clearTable();
-                showMenuOnTable("HotDrink");
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alert.show();
-            }
-        });
-
-        cakeBtn.setOnAction(event -> {
-            try {
-                clearTable();
-                showMenuOnTable("Cake");
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alert.show();
-            }
-        });
-
-        coffeeBtn.setOnAction(event -> {
-            try {
-                clearTable();
-                showMenuOnTable("Coffee");
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alert.show();
-            }
-        });
-
-        milkshakeBtn.setOnAction(event -> {
-            try {
-                clearTable();
-                showMenuOnTable("Milkshake");
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alert.show();
-            }
-        });
-
-        iceCreamBtn.setOnAction(event -> {
-            try {
-                clearTable();
-                showMenuOnTable("IceCream");
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK);
-                alert.show();
-            }
-        });
-
-        addToOrder = FXCollections.observableArrayList();
+        // Event listener for selecting items in the menu table
         menuTbl.setOnMouseClicked(event -> {
             Item item = menuTbl.getSelectionModel().getSelectedItem();
-            OrderLine orderLine = OrderLine
-                    .builder()
-                    .id(item.getItemId())
-                    .item(item)
-                    .build();
-
-            orderLine.setCount(1);
-
-//            orderLine.setTotalPrice(orderLine.getCount() * orderLine.getItem().getPrice());
-
-            System.out.println(orderLine);
-
-//            if (  ) {
-//
-//            } else {
-//
-//                idOrderTbl.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-//                itemNameOrderTbl.setCellValueFactory(new PropertyValueFactory<>("name"));
-//                priceOrderTbl.setCellValueFactory(new PropertyValueFactory<>("price"));
-//
-//
-//            }
-
-        });
-
-        takeOrderBtn.setOnAction(event -> {
-            CustomerBL customerBL = new CustomerBL();
-            Customer customer = Customer.builder()
-                    .firstName(customerNameTxt.getText())
-                    .lastName(customerFamilyTxt.getText())
-                    .phoneNumber(phoneNumberTxt.getText())
-                    .build();
-            try {
-                customerBL.save(customer);
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                alert.showAndWait();
+            if (item != null) {
+                addItemToOrder(item);
             }
-
-            
         });
 
-
+        takeOrderBtn.setOnAction(event -> handleTakeOrder());
+        resetBtn.setOnAction(event -> resetOrderTable());
     }
 
-
-
-    private void updateCount(OrderLine orderLine) {
-        orderLine.setCount(orderLine.getCount() + 1);
+    private void setupCategoryButton(Button button, String category) {
+        button.setOnAction(event -> {
+            try {
+                clearTable();
+                showMenuOnTable(category);
+            } catch (Exception ex) {
+                showErrorAlert(ex.getMessage());
+            }
+        });
     }
 
-    private void clearTable() {
-        menuTbl.getItems().clear();
-    }
-
+//    private void showMenuOnTable(String category) throws Exception {
+//        ItemBL itemBL = new ItemBL();
+//        List<Item> itemList = itemBL.findByCategory(category);
+//        ObservableList<Item> observableList = FXCollections.observableList(itemList);
+//
+//        menuTbl.getColumns().clear();
+//        TableColumn<Item, Integer> idMenuColumn = new TableColumn<>("ID");
+//        idMenuColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+//
+//        TableColumn<Item, String> nameMenuColumn = new TableColumn<>("Name");
+//        nameMenuColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+//
+//        TableColumn<Item, String> descriptionMenuColumn = new TableColumn<>("Description");
+//        descriptionMenuColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+//
+//        TableColumn<Item, Integer> priceMenuColumn = new TableColumn<>("Price");
+//        priceMenuColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+//
+//        menuTbl.getColumns().addAll(idMenuColumn, nameMenuColumn, descriptionMenuColumn, priceMenuColumn);
+//
+//        menuTbl.setItems(observableList);
+//    }
     private void showMenuOnTable(String category) throws Exception {
         ItemBL itemBL = new ItemBL();
         List<Item> itemList = itemBL.findByCategory(category);
@@ -197,5 +135,97 @@ public class MenuController implements Initializable {
 
         menuTbl.setItems(observableList);
     }
-//
+
+    private void clearTable() {
+        menuTbl.getItems().clear();
+    }
+
+    private void resetOrderTable() {
+        orderItems.clear();
+        totalPriceLbl.setText("0");
+    }
+
+    private void addItemToOrder(Item item) {
+        OrderItem orderItem = OrderItem.builder()
+                .itemId(item.getItemId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .category(item.getCategory())
+                .isAvailable(true)
+                .count(1)
+                .price(item.getPrice())
+                .totalPrice(item.getPrice())
+                .build();
+
+        boolean itemExists = false;
+        for (OrderItem existingItem : orderItems) {
+            if (existingItem.getItemId() == orderItem.getItemId()) {
+                existingItem.setCount(existingItem.getCount() + 1);
+                existingItem.updateTotalPrice(existingItem.getCount());
+                itemExists = true;
+                break;
+            }
+        }
+
+        if (!itemExists) {
+            orderItems.add(orderItem);
+        }
+        orderTbl.refresh();
+        updateTotalPrice();
+    }
+
+    private void updateTotalPrice() {
+        Integer totalPrice = orderItems.stream()
+                .mapToInt(OrderItem::getTotalPrice)
+                .sum();
+        totalPriceLbl.setText(String.valueOf(totalPrice));
+    }
+
+    private void handleTakeOrder() {
+        CustomerBL customerBL = new CustomerBL();
+        Customer customer = Customer.builder()
+                .firstName(customerNameTxt.getText())
+                .lastName(customerFamilyTxt.getText())
+                .phoneNumber(phoneNumberTxt.getText())
+                .build();
+        System.out.println("Customer: " + customer);
+        try {
+            customerBL.save(customer);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Customer has been saved successfully", ButtonType.OK);
+            alert.showAndWait();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+        ObservableList<OrderItem> orderItems = orderTbl.getItems();
+        Order order = Order.builder()
+                .customer(customer)
+                .products(orderItems)
+                .totalPrice(Integer.valueOf(totalPriceLbl.getText()))
+                .status(OrderStatus.Open)
+                .build();
+        System.out.println("Order: " + order);
+
+        OrderBL orderBL = new OrderBL();
+        try {
+            orderBL.save(order);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order has been saved successfully", ButtonType.OK);
+            alert.showAndWait();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.show();
+        }
+        resetOrderTable();
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.show();
+    }
+
+
 }
+
+
+
+

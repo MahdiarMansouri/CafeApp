@@ -153,5 +153,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
+      <Button fx:id="resetBtn" layoutX="1032.0" layoutY="664.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="63.0" text="reset" />
    </children>
 </Pane>

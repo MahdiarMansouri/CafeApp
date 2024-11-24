@@ -15,10 +15,15 @@ import lombok.experimental.SuperBuilder;
 
 public class OrderItem extends Item {
     private int count;
-    private int totalPrice;
+    private Integer totalPrice = null;
 
     private OrderItem(int count, int totalPrice) {
         this.setTotalPrice(this.getCount() * this.getPrice());
+    }
+
+    public void updateTotalPrice(int count){
+        this.setTotalPrice(count * this.getPrice());
+
     }
 
 }

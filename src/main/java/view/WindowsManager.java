@@ -75,29 +75,7 @@ public class WindowsManager {
         stage.show();
     }
 
-//    public static void showWindowWithClose(Stage currentStage, String fxmlPath) throws IOException {
-//        currentStage.close();
-//
-//        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource(fxmlPath));
-//        Scene scene = new Scene(loader.load());
-//        Stage newStage = new Stage();
-//        newStage.setScene(scene);
-//        newStage.show();
-//    }
 
-    public static void showMenuWindow () throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("Menu.fxml"));
-        Scene scene = new Scene(loader.load());
-
-        MenuController menuController = loader.getController();
-
-        menuController.setStage(stage);
-
-        stage.setScene(scene);
-        stage.setTitle("Menu Window");
-        stage.show();
-    }
     public static void showInventoryWindow () throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("inventory.fxml"));
@@ -111,7 +89,6 @@ public class WindowsManager {
         stage.setTitle("Inventory Window");
         stage.show();
     }
-
     public static void showHistoryWindow () throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("inventory.fxml"));
@@ -126,4 +103,26 @@ public class WindowsManager {
         stage.show();
     }
 
+    public static void showMenuWindow () throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("Menu.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        MenuController menuController = loader.getController();
+
+        menuController.setStage(stage);
+
+        stage.setScene(scene);
+        stage.setTitle("Menu Window");
+        stage.show();
+    }
+//    public static void showWindowWithClose(Stage currentStage, String fxmlPath) throws IOException {
+//        currentStage.close();
+//
+//        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource(fxmlPath));
+//        Scene scene = new Scene(loader.load());
+//        Stage newStage = new Stage();
+//        newStage.setScene(scene);
+//        newStage.show();
+//    }
 }
