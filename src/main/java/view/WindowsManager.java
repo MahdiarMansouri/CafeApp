@@ -16,6 +16,7 @@ public class WindowsManager {
         MainController mainController = loader.getController();
         mainController.setUsername(username);
 
+
         stage.setScene(scene);
         stage.setTitle("Main Window");
         stage.show();

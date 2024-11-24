@@ -22,7 +22,10 @@ public class LoginController implements Initializable {
     private Button loginBtn;
 
     @FXML
-    private TextField usernameTxt, passwordTxt;
+    private TextField usernameTxt;
+
+    @FXML
+    private PasswordField passwordTxt;
 
 
 
@@ -42,7 +45,6 @@ public class LoginController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login Successful");
                     if (alert.showAndWait().get().equals(ButtonType.OK)) {
                         WindowsManager.showMainWindow(usernameTxt.getText());
-                        this.stage.close();
                     }
                 }
             } catch (Exception e) {

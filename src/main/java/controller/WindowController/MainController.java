@@ -1,5 +1,6 @@
 package controller.WindowController;
 
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
@@ -33,60 +34,54 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        Role role = this.person.getUser().getRole();
-//
-//        if (role == Role.Cashier) {
-//            hideAndDisableButton(addUserBtn, addUserLbl);
-//            hideAndDisableButton(addItemBtn, addItemLbl);
-//            hideAndDisableButton(inventoryBtn, inventoryLbl);
-//        } else if (role == Role.Storekeeper) {
-//            hideAndDisableButton(addUserBtn, addUserLbl);
-//        }
+        Platform.runLater(() -> {
+            Role role = person.getUser().getRole();
+            if (role == Role.Cashier) {
+                hideAndDisableButton(addUserBtn, addUserLbl);
+                hideAndDisableButton(addItemBtn, addItemLbl);
+                hideAndDisableButton(inventoryBtn, inventoryLbl);
+            } else if (role == Role.Storekeeper) {
+                hideAndDisableButton(addUserBtn, addUserLbl);
+            }
+        });
 
-        menuBtn.setOnAction(event -> {
+        setupWindows(menuBtn, "menu");
+        setupWindows(addItemBtn, "addItem");
+        setupWindows(addUserBtn, "addUser");
+        setupWindows(viewHistoryBtn, "viewHistory");
+        setupWindows(inventoryBtn, "inventory");
+
+    }
+
+    public void setupWindows(Button button, String window) {
+        button.setOnAction(event -> {
             try {
-                WindowsManager.showMenuWindow();
+                switch (window) {
+                    case "addItem":
+                        WindowsManager.showAddItemWindow();
+                        break;
+                    case "addUser":
+                        WindowsManager.showAddUserWindow();
+                        break;
+                    case "inventory":
+                        WindowsManager.showInventoryWindow();
+                        break;
+                    case "menu":
+                        WindowsManager.showMenuWindow();
+                        break;
+                    case "viewHistory":
+                        WindowsManager.showHistoryWindow();
+                        break;
+                }
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                alert.show();
-            }
-        });
-
-        addItemBtn.setOnAction(event -> {
-            try {
-                WindowsManager.showAddItemWindow();
-            } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                alert.show();
-            }
-        });
-        viewHistoryBtn.setOnAction(event -> {
-            try {
-                WindowsManager.showHistoryWindow();
-            } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
-        });
-        inventoryBtn.setOnAction(event -> {
-            try {
-                WindowsManager.showInventoryWindow();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        addUserBtn.setOnAction(event -> {
-            try {
-                WindowsManager.showAddUserWindow();
-            } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                alert.show();
             }
         });
 
     }
 
 
-    public void setUsername(String username) throws Exception {
+    public void setUsername(String username) {
         try {
             PersonBL personBL = new PersonBL();
             Person person = personBL.findByUsername(username);
@@ -104,11 +99,4 @@ public class MainController implements Initializable {
         button.setDisable(true);
         label.setDisable(true);
     }
-
-//    public void showAndEnableButton(Button button, Label label) {
-//        button.setVisible(true);
-//        label.setVisible(true);
-//        button.setDisable(false);
-//        label.setDisable(false);
-//    }
 }

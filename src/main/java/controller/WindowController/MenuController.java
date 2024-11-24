@@ -37,7 +37,7 @@ public class MenuController implements Initializable {
     private TextField customerNameTxt, customerFamilyTxt, phoneNumberTxt;
 
     @FXML
-    private Button coldDrinksBtn, hotDrinksBtn, coffeeBtn, cakeBtn, milkshakeBtn, iceCreamBtn, takeOrderBtn, resetBtn;
+    private Button coldDrinksBtn, hotDrinksBtn, coffeeBtn, cakeBtn, milkshakeBtn, iceCreamBtn, takeOrderBtn, resetBtn, removeBtn;
 
     @FXML
     private TableView<Item> menuTbl;
@@ -70,7 +70,6 @@ public class MenuController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        // Set event listeners for category buttons
         setupCategoryButton(coldDrinksBtn, "ColdDrink");
         setupCategoryButton(hotDrinksBtn, "HotDrink");
         setupCategoryButton(cakeBtn, "Cake");
@@ -78,7 +77,6 @@ public class MenuController implements Initializable {
         setupCategoryButton(milkshakeBtn, "Milkshake");
         setupCategoryButton(iceCreamBtn, "IceCream");
 
-        // Event listener for selecting items in the menu table
         menuTbl.setOnMouseClicked(event -> {
             Item item = menuTbl.getSelectionModel().getSelectedItem();
             if (item != null) {
@@ -86,8 +84,19 @@ public class MenuController implements Initializable {
             }
         });
 
+        orderTbl.setOnMouseClicked(event -> {
+            OrderItem orderItemSelected = orderTbl.getSelectionModel().getSelectedItem();
+            if (orderItemSelected != null) {
+                removeBtn.setOnAction(e -> removeOrderItem(orderItemSelected));
+            }
+        });
         takeOrderBtn.setOnAction(event -> handleTakeOrder());
         resetBtn.setOnAction(event -> resetOrderTable());
+    }
+
+    private void removeOrderItem(OrderItem orderItemSelected) {
+        orderTbl.getItems().remove(orderItemSelected);
+        updateTotalPrice();
     }
 
     private void setupCategoryButton(Button button, String category) {
@@ -95,34 +104,12 @@ public class MenuController implements Initializable {
             try {
                 clearTable();
                 showMenuOnTable(category);
-            } catch (Exception ex) {
-                showErrorAlert(ex.getMessage());
+            } catch (Exception e) {
+                showErrorAlert(e.getMessage());
             }
         });
     }
 
-    //    private void showMenuOnTable(String category) throws Exception {
-//        ItemBL itemBL = new ItemBL();
-//        List<Item> itemList = itemBL.findByCategory(category);
-//        ObservableList<Item> observableList = FXCollections.observableList(itemList);
-//
-//        menuTbl.getColumns().clear();
-//        TableColumn<Item, Integer> idMenuColumn = new TableColumn<>("ID");
-//        idMenuColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-//
-//        TableColumn<Item, String> nameMenuColumn = new TableColumn<>("Name");
-//        nameMenuColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-//
-//        TableColumn<Item, String> descriptionMenuColumn = new TableColumn<>("Description");
-//        descriptionMenuColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-//
-//        TableColumn<Item, Integer> priceMenuColumn = new TableColumn<>("Price");
-//        priceMenuColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-//
-//        menuTbl.getColumns().addAll(idMenuColumn, nameMenuColumn, descriptionMenuColumn, priceMenuColumn);
-//
-//        menuTbl.setItems(observableList);
-//    }
     private void showMenuOnTable(String category) throws Exception {
         ItemBL itemBL = new ItemBL();
         List<Item> itemList = itemBL.findByCategory(category);
