@@ -98,4 +98,32 @@ public class WindowsManager {
         stage.setTitle("Menu Window");
         stage.show();
     }
+    public static void showInventoryWindow () throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("inventory.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        InventoryController inventoryController = loader.getController();
+
+        inventoryController.setStage(stage);
+
+        stage.setScene(scene);
+        stage.setTitle("Inventory Window");
+        stage.show();
+    }
+
+    public static void showHistoryWindow () throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("inventory.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        InventoryController inventoryController = loader.getController();
+
+        inventoryController.setStage(stage);
+
+        stage.setScene(scene);
+        stage.setTitle("History Window");
+        stage.show();
+    }
+
 }

@@ -19,29 +19,17 @@ import java.util.List;
 
 public class Order {
     private int orderId;
-    private List<Item> products;
+    private List<OrderItem> products;
     private Integer totalPrice;
     private OrderStatus status;
     private Customer customer;
 
-
-    public void addItem(Item product) {
-        products.add(product);
-    }
-
-    public void removeItem(Item product) {
-        products.remove(product);
-    }
-
-    public void calculateTotalPrice() {
+    public Order(List<OrderItem> products) {
         totalPrice = 0;
-        for (Item item : products) {
-            totalPrice += item.getPrice();
+        for (OrderItem orderItem : products) {
+            totalPrice += orderItem.getTotalPrice();
         }
-    }
-
-    public void updateStatus(OrderStatus orderStatus) {
-        this.status = orderStatus;
+        this.setOrderId(totalPrice);
     }
 
     @Override

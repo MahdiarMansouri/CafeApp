@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import model.entity.Customer;
 import model.entity.Item;
 import model.entity.Order;
+import model.entity.OrderItem;
 import model.entity.enums.OrderStatus;
 import model.tools.CRUD;
 import model.tools.ConnectionProvider;
@@ -77,7 +78,7 @@ public class OrderDA implements AutoCloseable, CRUD<Order> {
         while (resultSet.next()) {
             Gson gson = new Gson();
             String itemStrings = resultSet.getString("ITEMS");
-            List<Item> items = gson.fromJson(itemStrings, new TypeToken<List<Item>>() {
+            List<OrderItem> orderItems = gson.fromJson(itemStrings, new TypeToken<List<OrderItem>>() {
             }.getType());
             Customer customer = new Customer();
             customer.setCustomerId(resultSet.getInt("CUSTOMER_ID"));
@@ -85,7 +86,7 @@ public class OrderDA implements AutoCloseable, CRUD<Order> {
             Order order = Order
                     .builder()
                     .orderId(resultSet.getInt("ORDER_ID"))
-                    .products(items)
+                    .products(orderItems)
                     .totalPrice(resultSet.getInt("TOTAL_PRICE"))
                     .status(OrderStatus.valueOf(resultSet.getString("STATUS")))
                     .customer(customer)
@@ -105,7 +106,7 @@ public class OrderDA implements AutoCloseable, CRUD<Order> {
         Order order = null;
         if (resultSet.next()) {
             String itemStrings = resultSet.getString("ITEMS");
-            List<Item> items = gson.fromJson(itemStrings, new TypeToken<List<Item>>() {
+            List<OrderItem> orderItems = gson.fromJson(itemStrings, new TypeToken<List<OrderItem>>() {
             }.getType());
             Customer customer = new Customer();
             customer.setCustomerId(resultSet.getInt("CUSTOMER_ID"));
@@ -113,7 +114,7 @@ public class OrderDA implements AutoCloseable, CRUD<Order> {
             order = Order
                     .builder()
                     .orderId(resultSet.getInt("ORDER_ID"))
-                    .products(items)
+                    .products(orderItems)
                     .totalPrice(resultSet.getInt("TOTAL_PRICE"))
                     .status(OrderStatus.valueOf(resultSet.getString("STATUS")))
                     .customer(customer)
@@ -132,7 +133,7 @@ public class OrderDA implements AutoCloseable, CRUD<Order> {
         Order order = null;
         if (resultSet.next()) {
             String itemStrings = resultSet.getString("ITEMS");
-            List<Item> items = gson.fromJson(itemStrings, new TypeToken<List<Item>>() {
+            List<OrderItem> orderItems = gson.fromJson(itemStrings, new TypeToken<List<OrderItem>>() {
             }.getType());
             Customer customer = new Customer();
             customer.setCustomerId(resultSet.getInt("CUSTOMER_ID"));
@@ -140,7 +141,7 @@ public class OrderDA implements AutoCloseable, CRUD<Order> {
             order = Order
                     .builder()
                     .orderId(resultSet.getInt("ORDER_ID"))
-                    .products(items)
+                    .products(orderItems)
                     .totalPrice(resultSet.getInt("TOTAL_PRICE"))
                     .status(OrderStatus.valueOf(resultSet.getString("STATUS")))
                     .customer(customer)

@@ -14,7 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lombok.Setter;
+import model.bl.CustomerBL;
 import model.bl.ItemBL;
+import model.entity.Customer;
 import model.entity.Item;
 import model.entity.OrderLine;
 import model.entity.enums.Category;
@@ -151,6 +153,23 @@ public class MenuController implements Initializable {
 //
 //            }
 
+        });
+
+        takeOrderBtn.setOnAction(event -> {
+            CustomerBL customerBL = new CustomerBL();
+            Customer customer = Customer.builder()
+                    .firstName(customerNameTxt.getText())
+                    .lastName(customerFamilyTxt.getText())
+                    .phoneNumber(phoneNumberTxt.getText())
+                    .build();
+            try {
+                customerBL.save(customer);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                alert.showAndWait();
+            }
+
+            
         });
 
 

@@ -61,8 +61,18 @@ public class MainController implements Initializable {
             }
         });
         viewHistoryBtn.setOnAction(event -> {
+            try {
+                WindowsManager.showHistoryWindow();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         inventoryBtn.setOnAction(event -> {
+            try {
+                WindowsManager.showInventoryWindow();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         addUserBtn.setOnAction(event -> {
             try {

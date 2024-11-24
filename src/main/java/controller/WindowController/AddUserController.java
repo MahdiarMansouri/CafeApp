@@ -67,6 +67,7 @@ public class AddUserController implements Initializable {
                         .gender(genderCmb.getValue())
                         .nationalId(nationalIDTxt.getText())
                         .phoneNumber(phoneNumberTxt.getText())
+                        .user(user)
                         .build();
 
                 userBL.save(user);
