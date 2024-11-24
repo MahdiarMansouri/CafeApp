@@ -21,20 +21,6 @@ public class Inventory {
     private double unitPrice;
 
 
-    public Inventory(int itemId, String itemName, int quantity, double unitPrice) {}
-
-    public void updateStock(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public void reduceStock(int quantity) {
-        this.quantity -= quantity;
-    }
-
-    public double getStockValue(int quantity) {
-        return (this.unitPrice * quantity);
-    }
-
     @Override
     public String toString() {
         return new Gson().toJson(this);

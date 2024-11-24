@@ -2,7 +2,6 @@ package model.entity;
 
 
 import com.google.gson.Gson;
-import javafx.collections.ObservableArray;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

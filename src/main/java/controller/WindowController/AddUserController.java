@@ -55,27 +55,34 @@ public class AddUserController implements Initializable {
         addUserBtn.setOnAction(event -> {
             UserBL userBL = new UserBL();
             PersonBL personBL = new PersonBL();
-            try {
-                User user = User.builder()
-                        .username(usernameTxt.getText())
-                        .password(passwordTxt.getText())
-                        .role(roleCmb.getValue())
-                        .build();
-                Person person = Person.builder()
-                        .name(nameTxt.getText())
-                        .family(familyTxt.getText())
-                        .gender(genderCmb.getValue())
-                        .nationalId(nationalIDTxt.getText())
-                        .phoneNumber(phoneNumberTxt.getText())
-                        .user(user)
-                        .build();
 
+            User user = User.builder()
+                    .username(usernameTxt.getText())
+                    .password(passwordTxt.getText())
+                    .role(roleCmb.getValue())
+                    .build();
+            Person person = Person.builder()
+                    .name(nameTxt.getText())
+                    .family(familyTxt.getText())
+                    .gender(genderCmb.getValue())
+                    .nationalId(nationalIDTxt.getText())
+                    .phoneNumber(phoneNumberTxt.getText())
+                    .user(user)
+                    .build();
+            try {
+                System.out.println(person);
+                System.out.println(user);
                 userBL.save(user);
                 personBL.save(person);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "User Added Successfully", ButtonType.OK);
                 alert.showAndWait();
                 resetForm();
-            }catch (Exception e) {
+            } catch (Exception e) {
+                try {
+                    userBL.remove(user.getUser_id());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.showAndWait();
             }
@@ -83,8 +90,7 @@ public class AddUserController implements Initializable {
     }
 
 
-
-    private void resetForm(){
+    private void resetForm() {
         nameTxt.clear();
         familyTxt.clear();
         nationalIDTxt.clear();

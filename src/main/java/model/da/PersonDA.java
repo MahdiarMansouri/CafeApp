@@ -41,15 +41,15 @@ public class PersonDA implements AutoCloseable, CRUD<Person> {
     @Override
     public Person edit(Person person) throws Exception {
         preparedStatement = connection.prepareStatement(
-                "UPDATE PERSON_TBL SET NAME=?, FAMILY=?, GENDER=?, BIRTH_DATE=?, CITY=?, ALGO=?, SE=?, EE=?, USER_ID=? WHERE ID=?"
+                "UPDATE PERSON_TBL SET NAME=?, FAMILY=?, GENDER=?, NATIONAL_ID=?, PHONE_NUMBER=?, USER_ID=? WHERE ID=?"
         );
-        preparedStatement.setInt(1, person.getId());
-        preparedStatement.setString(2, person.getName());
-        preparedStatement.setString(3, person.getFamily());
-        preparedStatement.setString(4, person.getGender().name());
-        preparedStatement.setString(5, person.getNationalId());
-        preparedStatement.setString(6, person.getPhoneNumber());
-        preparedStatement.setInt(7, person.getUser().getUser_id());
+        preparedStatement.setString(1, person.getName());
+        preparedStatement.setString(2, person.getFamily());
+        preparedStatement.setString(3, person.getGender().name());
+        preparedStatement.setString(4, person.getNationalId());
+        preparedStatement.setString(5, person.getPhoneNumber());
+        preparedStatement.setInt(6, person.getUser().getUser_id());
+        preparedStatement.setInt(7, person.getId());
         preparedStatement.execute();
         return person;
     }
@@ -113,6 +113,26 @@ public class PersonDA implements AutoCloseable, CRUD<Person> {
     public Person findByUserId(int userId) throws Exception {
         preparedStatement = connection.prepareStatement("SELECT * FROM PERSON_TBL WHERE USER_ID=?");
         preparedStatement.setInt(1, userId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Person person = null;
+        if (resultSet.next()) {
+            person = Person
+                    .builder()
+                    .id(resultSet.getInt("ID"))
+                    .name(resultSet.getString("NAME"))
+                    .family(resultSet.getString("FAMILY"))
+                    .gender(Gender.valueOf(resultSet.getString("GENDER")))
+                    .nationalId(resultSet.getString("NATIONAL_ID"))
+                    .phoneNumber(resultSet.getString("PHONE_NUMBER"))
+                    .user(User.builder().user_id(resultSet.getInt("USER_ID")).build())
+                    .build();
+        }
+        return person;
+    }
+
+    public Person findByNationalID(String nationalID) throws Exception {
+        preparedStatement = connection.prepareStatement("SELECT * FROM PERSON_TBL WHERE NATIONAL_ID=?");
+        preparedStatement.setString(1, nationalID);
         ResultSet resultSet = preparedStatement.executeQuery();
         Person person = null;
         if (resultSet.next()) {

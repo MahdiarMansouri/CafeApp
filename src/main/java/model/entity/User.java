@@ -22,21 +22,6 @@ public class User {
     private Role role;
 
 
-    public void takeOrder(Order order) {
-    }
-
-    public void processPayment(Payment payment) {
-    }
-
-    public void printReceipt(Order order) {
-    }
-
-    public void calculateSalary() {
-    }
-
-    public void updateSalary() {
-    }
-
     @Override
     public String toString() {
         return new Gson().toJson(this);

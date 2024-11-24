@@ -1,5 +1,6 @@
 package model.bl;
 
+import controller.exceptions.person.DuplicatePersonException;
 import lombok.Getter;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import model.da.PersonDA;
 import model.entity.Person;
 import model.entity.User;
 import model.tools.CRUD;
+import model.tools.Validator;
 
 public class PersonBL implements CRUD<Person> {
     @Getter
@@ -20,8 +22,16 @@ public class PersonBL implements CRUD<Person> {
     @Override
     public Person save(Person person) throws Exception {
         try (PersonDA personDA = new PersonDA()) {
-            personDA.save(person);
-            return person;
+            if (personDA.findByNationalID(person.getNationalId()) == null) {
+                if (Validator.nameValidator(person.getName()) && Validator.nameValidator(person.getFamily()) && Validator.nationalIDValidator(person.getNationalId()) && Validator.phoneNumberValidator(person.getPhoneNumber())) {
+                    personDA.save(person);
+                    return person;
+                } else {
+                    throw new Exception("Invalid inputs for person properties..!");
+                }
+            } else {
+                throw new DuplicatePersonException();
+            }
         }
     }
 
@@ -29,8 +39,12 @@ public class PersonBL implements CRUD<Person> {
     public Person edit(Person person) throws Exception {
         try (PersonDA personDA = new PersonDA()) {
             if (personDA.findById(person.getId()) != null) {
-                personDA.edit(person);
-                return person;
+                if (Validator.nameValidator(person.getName()) && Validator.nameValidator(person.getFamily()) && Validator.nationalIDValidator(person.getNationalId()) && Validator.phoneNumberValidator(person.getPhoneNumber())) {
+                    personDA.edit(person);
+                    return person;
+                } else {
+                    throw new NoPersonFoundException();
+                }
             } else {
                 throw new NoPersonFoundException();
             }
@@ -55,11 +69,6 @@ public class PersonBL implements CRUD<Person> {
         try (PersonDA personDA = new PersonDA()) {
             List<Person> personList = personDA.findAll();
             if (!personList.isEmpty()) {
-//                personList
-//                        .stream()
-//                        .map(person -> person.setUser(UserBL.getUserBl().findById(person.getUser().getUser_id())))
-//                        .collect(Collectors.toList());
-
                 for (Person person : personList) {
                     person.setUser(UserBL.getUserBl().findById(person.getUser().getUser_id()));
                 }

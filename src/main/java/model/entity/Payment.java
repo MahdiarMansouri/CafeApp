@@ -20,8 +20,6 @@ public class Payment {
     private PaymentStatus paymentStatus;
     private Order order;
 
-    public void processPayment() {
-    }
 
     public void updatePaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;

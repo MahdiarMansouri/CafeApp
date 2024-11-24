@@ -20,15 +20,6 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
 
-    public Customer(String firstName, String lastName, String phoneNumber) {}
-
-    public void placeOrder(Order order){
-
-    }
-
-    public void viewMenu(Menu menu){
-        menu.viewMenu();
-    }
 
     @Override
     public String toString() {

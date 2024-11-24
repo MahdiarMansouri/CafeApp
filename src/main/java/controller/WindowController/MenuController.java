@@ -101,7 +101,7 @@ public class MenuController implements Initializable {
         });
     }
 
-//    private void showMenuOnTable(String category) throws Exception {
+    //    private void showMenuOnTable(String category) throws Exception {
 //        ItemBL itemBL = new ItemBL();
 //        List<Item> itemList = itemBL.findByCategory(category);
 //        ObservableList<Item> observableList = FXCollections.observableList(itemList);
@@ -182,40 +182,36 @@ public class MenuController implements Initializable {
     }
 
     private void handleTakeOrder() {
-        CustomerBL customerBL = new CustomerBL();
-        Customer customer = Customer.builder()
-                .firstName(customerNameTxt.getText())
-                .lastName(customerFamilyTxt.getText())
-                .phoneNumber(phoneNumberTxt.getText())
-                .build();
-        System.out.println("Customer: " + customer);
         try {
-            customerBL.save(customer);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Customer has been saved successfully", ButtonType.OK);
-            alert.showAndWait();
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.showAndWait();
-        }
-        ObservableList<OrderItem> orderItems = orderTbl.getItems();
-        Order order = Order.builder()
-                .customer(customer)
-                .products(orderItems)
-                .totalPrice(Integer.valueOf(totalPriceLbl.getText()))
-                .status(OrderStatus.Open)
-                .build();
-        System.out.println("Order: " + order);
+            CustomerBL customerBL = new CustomerBL();
+            Customer customer = Customer.builder()
+                    .firstName(customerNameTxt.getText())
+                    .lastName(customerFamilyTxt.getText())
+                    .phoneNumber(phoneNumberTxt.getText())
+                    .build();
+            System.out.println("Customer: " + customer);
 
-        OrderBL orderBL = new OrderBL();
-        try {
+            customerBL.save(customer);
+
+            ObservableList<OrderItem> orderItems = orderTbl.getItems();
+            Order order = Order.builder()
+                    .customer(customer)
+                    .products(orderItems)
+                    .totalPrice(Integer.valueOf(totalPriceLbl.getText()))
+                    .status(OrderStatus.Open)
+                    .build();
+            System.out.println("Order: " + order);
+
+            OrderBL orderBL = new OrderBL();
+
             orderBL.save(order);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order has been saved successfully", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order Submitted Successfully.", ButtonType.OK);
             alert.showAndWait();
+            resetOrderTable();
+
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-            alert.show();
+            showErrorAlert(e.getMessage());
         }
-        resetOrderTable();
     }
 
     private void showErrorAlert(String message) {

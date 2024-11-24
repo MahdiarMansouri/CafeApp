@@ -16,13 +16,6 @@ public class Menu {
     private int menuId;
     private List<Item> menuProducts;
 
-    public void addItem(Item product) {
-        menuProducts.add(product);
-    }
-
-    public void removeItem(Item product) {
-        menuProducts.remove(product);
-    }
 
     public void viewMenu() {
         Gson gson = new Gson();

@@ -6,6 +6,7 @@ import lombok.Getter;
 import model.da.CustomerDA;
 import model.entity.Customer;
 import model.tools.CRUD;
+import model.tools.Validator;
 
 import java.util.List;
 
@@ -20,10 +21,15 @@ public class CustomerBL implements CRUD<Customer> {
     public Customer save(Customer customer) throws Exception {
         try (CustomerDA customerDA = new CustomerDA()) {
             if (customerDA.findByCustomerName(customer.getFirstName()) == null || customerDA.findByCustomerFamily(customer.getLastName()) == null) {
-                customerDA.save(customer);
-                return customer;
+                if (Validator.nameValidator(customer.getFirstName()) && Validator.nameValidator(customer.getLastName()) && Validator.phoneNumberValidator(customer.getPhoneNumber())) {
+                    customerDA.save(customer);
+                    return customer;
+                } else {
+                    throw new Exception("Invalid Customer Name or Phone Number");
+                }
+            } else {
+                throw new DuplicateCustomerNameException();
             }
-            throw new DuplicateCustomerNameException();
         }
     }
 
@@ -31,8 +37,12 @@ public class CustomerBL implements CRUD<Customer> {
     public Customer edit(Customer customer) throws Exception {
         try (CustomerDA customerDA = new CustomerDA()) {
             if (customerDA.findById(customer.getCustomerId()) != null) {
-                customerDA.edit(customer);
-                return customer;
+                if (Validator.nameValidator(customer.getFirstName()) && Validator.nameValidator(customer.getLastName()) && Validator.phoneNumberValidator(customer.getPhoneNumber())) {
+                    customerDA.edit(customer);
+                    return customer;
+                } else {
+                    throw new Exception("Invalid Customer Name or Phone Number");
+                }
             } else {
                 throw new NoCustomerFoundException();
             }

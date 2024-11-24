@@ -8,6 +8,7 @@ import model.da.ItemDA;
 import model.entity.Item;
 import model.entity.enums.Category;
 import model.tools.CRUD;
+import model.tools.Validator;
 
 import java.util.List;
 
@@ -24,10 +25,15 @@ public class ItemBL implements CRUD<Item> {
     public Item save(Item item) throws Exception {
         try (ItemDA itemDA = new ItemDA()) {
             if (itemDA.findByItemName(item.getName()) == null) {
-                itemDA.save(item);
-                return item;
+                if (Validator.itemNameValidator(item.getName())) {
+                    itemDA.save(item);
+                    return item;
+                }else {
+                    throw new Exception("Item name is not valid");
+                }
+            }else{
+                throw new DuplicateItemNameException();
             }
-            throw new DuplicateItemNameException();
         }
     }
 
@@ -35,8 +41,12 @@ public class ItemBL implements CRUD<Item> {
     public Item edit(Item item) throws Exception {
         try (ItemDA itemDA = new ItemDA()) {
             if (itemDA.findById(item.getItemId()) != null) {
-                itemDA.edit(item);
-                return item;
+                if (Validator.itemNameValidator(item.getName())) {
+                    itemDA.edit(item);
+                    return item;
+                }else{
+                    throw new Exception("Item name is not valid");
+                }
             } else {
                 throw new NoItemFoundException();
             }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import model.da.UserDA;
 import model.entity.User;
 import model.tools.CRUD;
+import model.tools.Validator;
 
 import java.util.List;
 
@@ -20,8 +21,12 @@ public class UserBL implements CRUD<User> {
     public User save(User user) throws Exception {
         try (UserDA userDA = new UserDA()) {
             if (userDA.findByUsername(user.getUsername()) == null) {
-                userDA.save(user);
-                return user;
+                if (Validator.usernameValidator(user.getUsername()) && Validator.passwordValidator(user.getPassword())) {
+                    userDA.save(user);
+                    return user;
+                }else{
+                    throw new Exception("Invalid username or password");
+                }
             } else {
                 throw new DuplicateUsernameException();
             }
@@ -32,8 +37,12 @@ public class UserBL implements CRUD<User> {
     public User edit(User user) throws Exception {
         try (UserDA userDA = new UserDA()) {
             if (userDA.findById(user.getUser_id()) != null) {
-                userDA.edit(user);
-                return user;
+                if (Validator.usernameValidator(user.getUsername()) && Validator.passwordValidator(user.getPassword())) {
+                    userDA.edit(user);
+                    return user;
+                }else{
+                    throw new Exception("Invalid username or password");
+                }
             } else {
                 throw new NoUserFoundException();
             }

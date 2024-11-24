@@ -11,6 +11,7 @@ import lombok.Setter;
 import model.bl.ItemBL;
 import model.entity.Item;
 import model.entity.enums.Category;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,16 +44,17 @@ public class AddItemController implements Initializable {
         }
 
         addItemBtn.setOnAction(event -> {
-            ItemBL itemBL = new ItemBL();
-            Item item = Item
-                    .builder()
-                    .name(itemNameTxt.getText())
-                    .description(descriptionTxt.getText())
-                    .category(categoryCmb.getValue())
-                    .price(Integer.parseInt(priceTxt.getText()))
-                    .build();
-
             try {
+                ItemBL itemBL = new ItemBL();
+                Item item = Item
+                        .builder()
+                        .name(itemNameTxt.getText())
+                        .description(descriptionTxt.getText())
+                        .category(categoryCmb.getValue())
+                        .price(Integer.parseInt(priceTxt.getText()))
+                        .build();
+
+
                 itemBL.save(item);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Item Saved");
                 alert.showAndWait();
@@ -67,8 +69,7 @@ public class AddItemController implements Initializable {
     }
 
 
-
-    private void resetForm(){
+    private void resetForm() {
         itemNameTxt.clear();
         descriptionTxt.clear();
         priceTxt.clear();
