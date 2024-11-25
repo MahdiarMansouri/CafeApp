@@ -92,12 +92,12 @@ public class WindowsManager {
     }
     public static void showHistoryWindow () throws IOException {
         Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("inventory.fxml"));
+        FXMLLoader loader = new FXMLLoader(WindowsManager.class.getResource("viewHistory.fxml"));
         Scene scene = new Scene(loader.load());
 
-        InventoryController inventoryController = loader.getController();
+        HistoryController historyController = loader.getController();
 
-        inventoryController.setStage(stage);
+        historyController.setStage(stage);
 
         stage.setScene(scene);
         stage.setTitle("History Window");
